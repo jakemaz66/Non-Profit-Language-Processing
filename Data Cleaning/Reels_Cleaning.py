@@ -2,18 +2,20 @@
 import pandas as pd
 import json
 
+#Defining file path to JSON Data
 file_path = r'C:\Users\jakem\Non-Profit-Language-Processing\Raw Data Files\reels.json'
 
+#Reading in data
 with open(file_path, 'r') as file:
     data = json.load(file)
 
-data['organic_insights_reels']
 
+#Collecting Titles from data and storing in list
 titles = []
-
 for dictionary in data['organic_insights_reels']:
     titles.append((dictionary['media_map_data']['Media Thumbnail']['title']))
 
+#Defining rest of feature lists
 Upload_Timestamp = []
 Duration = []
 accounts_reached = []
@@ -61,7 +63,9 @@ def collect(data=data) -> pd.DataFrame:
                     'Accounts Reached': accounts_reached, 'Saves': Instagram_Saves, 'Likes': Instagram_Likes, 'Comments': Instagram_Comments,
                     'Shares': Instagram_Shares, 'Timestamp': Upload_Timestamp, 'Interest Topics':interest_topics })
 
+#Getting dataframe from collect
 df = collect(data)
 
+#Converting to Excel File
 excel_filename = 'Cleaned Reels Data.xlsx'
 df.to_excel(excel_filename)
