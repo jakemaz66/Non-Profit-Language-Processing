@@ -2,7 +2,7 @@
 import pandas as pd
 import json
 
-file_path = r"C:\Users\jakem\Downloads\posts.json"
+file_path = r'C:\Users\jakem\Non-Profit-Language-Processing\Raw Data Files\posts.json'
 
 with open(file_path, 'r') as file:
     data = json.load(file)
@@ -54,5 +54,9 @@ df = pd.DataFrame({'Post Title': titles, 'Profile Visits': profile_visits, 'Impr
                    'Shares': shares, 'Timestamp': timestamp})
 
 
-excel_filename = 'Cleaned Post Data.xlsx'
-df.to_excel(excel_filename)
+
+file_name = 'CleanedPosts.xlsx'
+
+df.to_excel(file_name)
+
+print(df.head())
