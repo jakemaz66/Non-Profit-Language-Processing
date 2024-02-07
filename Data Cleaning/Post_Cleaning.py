@@ -2,26 +2,19 @@
 import pandas as pd
 import json
 
+#Defining file path to JSON Data
 file_path = r'C:\Users\jakem\Non-Profit-Language-Processing\Raw Data Files\posts.json'
 
+#Reading in data
 with open(file_path, 'r') as file:
     data = json.load(file)
 
-data['organic_insights_posts']
-
+#Collecting Titles from data and storing in list
 titles = []
-
-for dictionary in data['organic_insights_posts']:
-  print(dictionary)
-    #if 'title' in dictionary:
-     # titles.append(dictionary['title'])
-
-titles = []
-
-
 for dictionary in data['organic_insights_posts']:
     titles.append((dictionary['media_map_data']['Media Thumbnail']['title']))
 
+#Defining rest of feature lists
 profile_visits = []
 impressions_visits = []
 accounts_reached = []
@@ -63,7 +56,9 @@ def collect(data=data) -> pd.DataFrame:
                     'Shares': shares, 'Timestamp': timestamp})
 
 
+#Calling collect function to get dataframe
 df = collect(data)
 
+#Converting to Excel File
 file_name = 'CleanedPosts.xlsx'
 df.to_excel(file_name)
