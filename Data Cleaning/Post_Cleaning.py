@@ -31,6 +31,7 @@ comments = []
 shares = []
 timestamp = []
 
+
 for dictionary in data['organic_insights_posts']:
     profile_visits.append((dictionary['string_map_data']['Profile Visits']['value']))
 
