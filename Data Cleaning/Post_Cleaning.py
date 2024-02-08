@@ -1,6 +1,7 @@
 #Importing Libraries
 import pandas as pd
 import json
+import string
 
 #Defining file path to JSON Data
 file_path = r'C:\Users\jakem\Non-Profit-Language-Processing\Raw Data Files\posts.json'
@@ -56,8 +57,33 @@ def collect(data=data) -> pd.DataFrame:
                     'Shares': shares, 'Timestamp': timestamp})
 
 
+def count_punctuation(text):
+    """
+    This function takes in text and returns the number of punctuation marks
+
+    Args:
+    text: a string
+    
+    """
+    return sum(1 for char in text if char in string.punctuation)
+
+def count_hashtags(text):
+    """
+    This function takes in text and returns the number of hashtags
+
+    Args:
+    text: a string
+    
+    """
+    return sum(1 for char in text if char in ['#'])
+
 #Calling collect function to get dataframe
 df = collect(data)
+
+#Adding Feature Columns
+df['Post Length'] = df['Post Title'].apply(lambda x: len(x))
+df['Punctuation_Count'] = df['Post Title'].apply(count_punctuation)
+df['Hashtag_Count'] = df['Post Title'].apply(count_hashtags)
 
 #Converting to Excel File
 file_name = 'CleanedPosts.xlsx'
