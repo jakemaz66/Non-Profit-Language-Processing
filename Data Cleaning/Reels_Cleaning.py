@@ -2,6 +2,8 @@
 import pandas as pd
 import json
 import string
+import datetime
+import time
 
 #Defining file path to JSON Data
 file_path = r'C:\Users\jakem\Non-Profit-Language-Processing\Raw Data Files\reels.json'
@@ -91,6 +93,22 @@ df = collect(data)
 df['Post Length'] = df['Post Title'].apply(lambda x: len(x))
 df['Punctuation_Count'] = df['Post Title'].apply(count_punctuation)
 df['Hashtag_Count'] = df['Post Title'].apply(count_hashtags)
+
+df['Date'] = df['Timestamp'].apply(lambda x: time.ctime(x))
+
+date_format = "%a %b %d %H:%M:%S %Y"
+
+df['Date'] = df['Date'].apply(lambda x: datetime.datetime.strptime(x, date_format))
+
+df['Year'] = df['Date'].apply(lambda x: x.year)
+df['Month'] = df['Date'].apply(lambda x: x.month)
+df['Day'] = df['Date'].apply(lambda x: x.day)
+
+df['Combined'] = df.apply(lambda row: datetime.datetime(row['Year'], row['Month'], row['Day']), axis=1)
+
+#Converting to Excel File
+file_name = 'CleanedPosts.xlsx'
+df.to_excel(file_name)
 
 #Converting to Excel File
 excel_filename = 'Cleaned Reels Data.xlsx'
