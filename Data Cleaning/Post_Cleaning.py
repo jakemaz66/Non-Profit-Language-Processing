@@ -88,11 +88,15 @@ df['Punctuation_Count'] = df['Post Title'].apply(count_punctuation)
 df['Hashtag_Count'] = df['Post Title'].apply(count_hashtags)
 df['Date'] = df['Timestamp'].apply(lambda x: time.ctime(x))
 
-# Define the date format
 date_format = "%a %b %d %H:%M:%S %Y"
 
-# Convert the entire column
 df['Date'] = df['Date'].apply(lambda x: datetime.datetime.strptime(x, date_format))
+
+df['Year'] = df['Date'].apply(lambda x: x.year)
+df['Month'] = df['Date'].apply(lambda x: x.month)
+df['Day'] = df['Date'].apply(lambda x: x.day)
+
+df['Combined'] = df.apply(lambda row: datetime.datetime(row['Year'], row['Month'], row['Day']), axis=1)
 
 #Converting to Excel File
 file_name = 'CleanedPosts.xlsx'
