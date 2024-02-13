@@ -73,4 +73,14 @@ df_intsa_reels['sentiment_category'] = df_intsa_reels['sentiment'].apply(lambda 
 df_insta['sentiment_category'] = df_insta['sentiment'].apply(lambda x: 'positive' if x > .85 
                                                                    else ('negative' if x < 0 else 'neutral'))
 
-print(df_insta['sentiment_category'].value_counts())
+file_name_1 = 'CleanedPosts.xlsx'
+df_insta.to_excel(file_name_1)
+
+file_name_2 = 'Cleaned LinkedIn Data.xlsx'
+df_linkedin.to_excel(file_name_2)
+
+file_name_3 = 'Cleaned Reels Data.xlsx'
+df_intsa_reels.to_excel(file_name_3)
+
+
+print(df_intsa_reels['sentiment_category'].value_counts())
