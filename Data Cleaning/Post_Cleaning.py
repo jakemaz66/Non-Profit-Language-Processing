@@ -2,6 +2,7 @@
 import pandas as pd
 import json
 import string
+import time
 
 #Defining file path to JSON Data
 file_path = r'C:\Users\jakem\Non-Profit-Language-Processing\Raw Data Files\posts.json'
@@ -84,6 +85,7 @@ df = collect(data)
 df['Post Length'] = df['Post Title'].apply(lambda x: len(x))
 df['Punctuation_Count'] = df['Post Title'].apply(count_punctuation)
 df['Hashtag_Count'] = df['Post Title'].apply(count_hashtags)
+df['Date'] = df['Timestamp'].apply(lambda x: time.ctime(x))
 
 #Converting to Excel File
 file_name = 'CleanedPosts.xlsx'
