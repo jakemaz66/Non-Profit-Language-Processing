@@ -54,19 +54,23 @@ df_linkedin['Posts_Analysis'] = df_linkedin['Posts'].apply(remove_stopwords)
 df_intsa_reels['Posts_Analysis'] = df_intsa_reels['Post Title'].apply(remove_stopwords)
 df_insta['Posts_Analysis'] = df_insta['Post Title'].apply(remove_stopwords)
 
+
+
 #Sentiment Analysis
+sia = sia()
+
 df_linkedin['sentiment'] = df_linkedin['Posts_Analysis'].apply(lambda x: sia.polarity_scores(x)['compound'])
 df_intsa_reels['sentiment'] = df_intsa_reels['Posts_Analysis'].apply(lambda x: sia.polarity_scores(x)['compound'])
 df_insta['sentiment'] = df_insta['Posts_Analysis'].apply(lambda x: sia.polarity_scores(x)['compound'])
 
 # Categorize sentiment into positive, negative, or neutral
-df_linkedin['sentiment_category'] = df_linkedin['sentiment'].apply(lambda x: 'positive' if x > 0 
+df_linkedin['sentiment_category'] = df_linkedin['sentiment'].apply(lambda x: 'positive' if x > .85 
                                                                    else ('negative' if x < 0 else 'neutral'))
 
-df_intsa_reels['sentiment_category'] = df_intsa_reels['sentiment'].apply(lambda x: 'positive' if x > 0 
+df_intsa_reels['sentiment_category'] = df_intsa_reels['sentiment'].apply(lambda x: 'positive' if x > .85 
                                                                    else ('negative' if x < 0 else 'neutral'))
 
-df_insta['sentiment_category'] = df_insta['sentiment'].apply(lambda x: 'positive' if x > 0 
+df_insta['sentiment_category'] = df_insta['sentiment'].apply(lambda x: 'positive' if x > .85 
                                                                    else ('negative' if x < 0 else 'neutral'))
 
-print(df_linkedin.head())
+print(df_insta['sentiment_category'].value_counts())
