@@ -86,6 +86,7 @@ def count_exclam(text):
     text: a string
     
     """
+    return sum(1 for char in text if char == '!')
 
 def count_hashtags(text):
     """
