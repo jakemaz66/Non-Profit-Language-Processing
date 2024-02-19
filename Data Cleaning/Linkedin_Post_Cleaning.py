@@ -1,5 +1,7 @@
 import pandas as pd
 import string
+from spellchecker import SpellChecker
+import emoji
 
 
 #Reading in Data
@@ -57,6 +59,42 @@ display(linked_in_interest)
 linked_in_interest['Post Length'] = linked_in_interest['Posts'].apply(lambda x: len(x))
 linked_in_interest['Punctuation_Count'] = linked_in_interest['Posts'].apply(count_punctuation)
 linked_in_interest['Hashtag_Count'] = linked_in_interest['Posts'].apply(count_hashtags)
+
+#Adding Sentence Length Column
+def split_sent(col):
+    sentences = col.replace('!', '.').replace('?', '.').split('.')
+    sentences = [s.strip() for s in sentences if s.strip()]  
+    total_length = sum(len(sentence.split()) for sentence in sentences)
+    
+    if len(sentences) > 0:
+        average_length = total_length / len(sentences)
+        return average_length
+    else:
+        return 0  
+
+linked_in_interest['Posts_Sentence_Length'] = linked_in_interest['Posts'].apply(split_sent)
+
+#Function to detect spelling mistakes
+
+#Function to detect emojis (so they will not be counted in the mistakes)
+def is_emoji(word):
+    return sum(1 for character in word if emoji.is_emoji(character))
+
+
+#Work in Progress Function
+#def detect_mistakes(col):
+    checker = SpellChecker()
+    words = col.split()
+
+    #Filtering out any emojis present
+    words = [word for word in words if not is_emoji(word)]
+
+    mistakes = checker.unknown(words)
+
+    number_mistakes = len(mistakes)
+    return number_mistakes
+
+linked_in_interest['Emoji_Count'] = linked_in_interest['Posts'].apply(is_emoji)
 
 
 #Exporting to File

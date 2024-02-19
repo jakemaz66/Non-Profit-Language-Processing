@@ -4,6 +4,7 @@ import json
 import string
 import datetime
 import time
+import emoji
 
 #Defining file path to JSON Data
 file_path = r'C:\Users\jakem\Non-Profit-Language-Processing\Raw Data Files\reels.json'
@@ -105,6 +106,42 @@ df['Month'] = df['Date'].apply(lambda x: x.month)
 df['Day'] = df['Date'].apply(lambda x: x.day)
 
 df['Combined'] = df.apply(lambda row: datetime.datetime(row['Year'], row['Month'], row['Day']), axis=1)
+
+#Adding Sentence Length Column
+def split_sent(col):
+    sentences = col.replace('!', '.').replace('?', '.').split('.')
+    sentences = [s.strip() for s in sentences if s.strip()]  
+    total_length = sum(len(sentence.split()) for sentence in sentences)
+    
+    if len(sentences) > 0:
+        average_length = total_length / len(sentences)
+        return average_length
+    else:
+        return 0  
+
+df['Posts_Sentence_Length'] = df['Post Title'].apply(split_sent)
+
+#Function to detect spelling mistakes
+
+#Function to detect emojis (so they will not be counted in the mistakes)
+def is_emoji(word):
+    return sum(1 for character in word if emoji.is_emoji(character))
+
+
+#Work in Progress Function
+#def detect_mistakes(col):
+    checker = SpellChecker()
+    words = col.split()
+
+    #Filtering out any emojis present
+    words = [word for word in words if not is_emoji(word)]
+
+    mistakes = checker.unknown(words)
+
+    number_mistakes = len(mistakes)
+    return number_mistakes
+
+df['Emoji_Count'] = df['Post Title'].apply(is_emoji)
 
 #Converting to Excel File
 file_name = 'CleanedPosts.xlsx'
