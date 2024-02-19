@@ -78,6 +78,15 @@ def count_punctuation(text):
     """
     return sum(1 for char in text if char in string.punctuation)
 
+def count_exclam(text):
+    """
+    This function takes in text and returns the number of exclamation marks
+
+    Args:
+    text: a string
+    
+    """
+
 def count_hashtags(text):
     """
     This function takes in text and returns the number of hashtags
@@ -94,6 +103,7 @@ df = collect(data)
 #Adding Feature Columns
 df['Post Length'] = df['Post Title'].apply(lambda x: len(x))
 df['Punctuation_Count'] = df['Post Title'].apply(count_punctuation)
+df['Exclam_Count'] = df['Post Title'].apply(count_exclam)
 df['Hashtag_Count'] = df['Post Title'].apply(count_hashtags)
 
 df['Date'] = df['Timestamp'].apply(lambda x: time.ctime(x))
@@ -157,7 +167,7 @@ def is_emoji(word):
 df['Emoji_Count'] = df['Post Title'].apply(is_emoji)
 
 #Part of Speech Tagging
-spacy.cli.download("en_core_web_lg")
+#spacy.cli.download("en_core_web_lg")
 nlp = spacy.load('en_core_web_lg')
 
 def count_adjectives(col):
@@ -189,10 +199,6 @@ def count_verbs(col):
 #Adding columns for part of speech tagging
 df['Adjective_Count'] = df['Post Title'].apply(count_adjectives)
 df['Verb_Count'] = df['Post Title'].apply(count_verbs)
-
-#Converting to Excel File
-file_name = 'CleanedPosts.xlsx'
-df.to_excel(file_name)
 
 #Converting to Excel File
 excel_filename = 'Cleaned Reels Data.xlsx'

@@ -71,6 +71,15 @@ def count_punctuation(text):
     """
     return sum(1 for char in text if char in string.punctuation)
 
+def count_exclam(text):
+    """
+    This function takes in text and returns the number of exclamation marks
+
+    Args:
+    text: a string
+    
+    """
+
 def count_hashtags(text):
     """
     This function takes in text and returns the number of hashtags
@@ -87,6 +96,7 @@ df = collect(data)
 #Adding Feature Columns
 df['Post Length'] = df['Post Title'].apply(lambda x: len(x))
 df['Punctuation_Count'] = df['Post Title'].apply(count_punctuation)
+df['Exclam_Count'] = df['Post Title'].apply(count_exclam)
 df['Hashtag_Count'] = df['Post Title'].apply(count_hashtags)
 df['Date'] = df['Timestamp'].apply(lambda x: time.ctime(x))
 

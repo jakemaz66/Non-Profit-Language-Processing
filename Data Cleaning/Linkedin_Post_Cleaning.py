@@ -31,6 +31,16 @@ def count_punctuation(text):
     """
     return sum(1 for char in text if char in string.punctuation)
 
+def count_exclam(text):
+    """
+    This function takes in text and returns the number of exclamation marks
+
+    Args:
+    text: a string
+    
+    """
+    return sum(1 for char in text if char == '!')
+
 def count_hashtags(text):
     """
     This function takes in text and returns the number of hashtags
@@ -59,6 +69,7 @@ display(linked_in_interest)
 #Adding Feature Columns
 linked_in_interest['Post Length'] = linked_in_interest['Posts'].apply(lambda x: len(x))
 linked_in_interest['Punctuation_Count'] = linked_in_interest['Posts'].apply(count_punctuation)
+linked_in_interest['Exclam_Count'] = linked_in_interest['Posts'].apply(count_exclam)
 linked_in_interest['Hashtag_Count'] = linked_in_interest['Posts'].apply(count_hashtags)
 
 #Adding Sentence Length Column
@@ -112,7 +123,7 @@ linked_in_interest['Emoji_Count'] = linked_in_interest['Posts'].apply(is_emoji)
 
 
 #Part of Speech Tagging
-spacy.cli.download("en_core_web_lg")
+#spacy.cli.download("en_core_web_lg")
 nlp = spacy.load('en_core_web_lg')
 
 def count_adjectives(col):
