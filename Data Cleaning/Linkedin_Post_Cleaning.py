@@ -2,6 +2,7 @@ import pandas as pd
 import string
 from spellchecker import SpellChecker
 import emoji
+import spacy
 
 
 #Reading in Data
@@ -94,7 +95,31 @@ def is_emoji(word):
     number_mistakes = len(mistakes)
     return number_mistakes
 
+#Adding column that counts emojis
 linked_in_interest['Emoji_Count'] = linked_in_interest['Posts'].apply(is_emoji)
+
+
+#Part of Speech Tagging
+spacy.cli.download("en_core_web_lg")
+nlp = spacy.load('en_core_web_lg')
+
+def count_adjectives(col):
+    words = nlp(col)
+
+    adjectives = [nlp.token.text for nlp.token in words if nlp.token.pos_ == 'ADJ']
+
+    return(len(adjectives))
+
+def count_verbs(col):
+    words = nlp(col)
+
+    verbs = [nlp.token.text for nlp.token in words if nlp.token.pos_ == 'VERB']
+
+    return(len(verbs))
+
+#Adding columns for part of speech tagging
+linked_in_interest['Adjective_Count'] = linked_in_interest['Posts'].apply(count_adjectives)
+linked_in_interest['Verb_Count'] = linked_in_interest['Posts'].apply(count_verbs)
 
 
 #Exporting to File

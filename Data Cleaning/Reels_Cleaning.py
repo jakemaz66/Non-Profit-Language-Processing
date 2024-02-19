@@ -5,6 +5,7 @@ import string
 import datetime
 import time
 import emoji
+import spacy
 
 #Defining file path to JSON Data
 file_path = r'C:\Users\jakem\Non-Profit-Language-Processing\Raw Data Files\reels.json'
@@ -142,6 +143,28 @@ def is_emoji(word):
     return number_mistakes
 
 df['Emoji_Count'] = df['Post Title'].apply(is_emoji)
+
+#Part of Speech Tagging
+spacy.cli.download("en_core_web_lg")
+nlp = spacy.load('en_core_web_lg')
+
+def count_adjectives(col):
+    words = nlp(col)
+
+    adjectives = [nlp.token.text for nlp.token in words if nlp.token.pos_ == 'ADJ']
+
+    return(len(adjectives))
+
+def count_verbs(col):
+    words = nlp(col)
+
+    verbs = [nlp.token.text for nlp.token in words if nlp.token.pos_ == 'VERB']
+
+    return(len(verbs))
+
+#Adding columns for part of speech tagging
+df['Adjective_Count'] = df['Post Title'].apply(count_adjectives)
+df['Verb_Count'] = df['Post Title'].apply(count_verbs)
 
 #Converting to Excel File
 file_name = 'CleanedPosts.xlsx'
