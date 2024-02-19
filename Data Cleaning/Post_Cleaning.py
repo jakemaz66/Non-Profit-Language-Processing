@@ -137,7 +137,7 @@ def is_emoji(word):
 df['Emoji_Count'] = df['Post Title'].apply(is_emoji)
 
 #Part of Speech Tagging
-spacy.cli.download("en_core_web_lg")
+#spacy.cli.download("en_core_web_lg")
 nlp = spacy.load('en_core_web_lg')
 
 def count_adjectives(col):
