@@ -189,9 +189,25 @@ def count_verbs(col):
 
     return(len(verbs))
 
+def count_named_entities(col):
+    """
+    This function takes in a column and returns the number of named entities in that column value
+
+    Args:
+    col -> column of a pandas dataframe
+    
+    """
+    words = nlp(col)
+
+    #Count named entities
+    named_entities_count = len(words.ents)
+
+    return named_entities_count
+
 #Adding columns for part of speech tagging
 df['Adjective_Count'] = df['Post Title'].apply(count_adjectives)
 df['Verb_Count'] = df['Post Title'].apply(count_verbs)
+df['Entities_Count'] = df['Post Title'].apply(count_named_entities)
 
 #Converting to Excel File
 file_name = 'CleanedPosts.xlsx'

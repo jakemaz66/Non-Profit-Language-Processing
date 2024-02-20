@@ -123,7 +123,7 @@ linked_in_interest['Emoji_Count'] = linked_in_interest['Posts'].apply(is_emoji)
 
 
 #Part of Speech Tagging
-#spacy.cli.download("en_core_web_lg")
+spacy.cli.download("en_core_web_lg")
 nlp = spacy.load('en_core_web_lg')
 
 def count_adjectives(col):
@@ -152,9 +152,25 @@ def count_verbs(col):
 
     return(len(verbs))
 
+def count_named_entities(col):
+    """
+    This function takes in a column and returns the number of named entities in that column value
+
+    Args:
+    col -> column of a pandas dataframe
+    
+    """
+    words = nlp(col)
+
+    #Count named entities
+    named_entities_count = len(words.ents)
+
+    return named_entities_count
+
 #Adding columns for part of speech tagging
 linked_in_interest['Adjective_Count'] = linked_in_interest['Posts'].apply(count_adjectives)
 linked_in_interest['Verb_Count'] = linked_in_interest['Posts'].apply(count_verbs)
+linked_in_interest['Entities_Count'] = linked_in_interest['Posts'].apply(count_named_entities)
 
 
 #Exporting to File
