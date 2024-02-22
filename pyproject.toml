@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "duq330bigdata"
+version = "0.1.0"
+description = ""
+authors = ["jakem <mazurkiewiczj@duq.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pandas = "^2.2.0"
+numpy = "^1.26.3"
+datetime = "^5.4"
+openpyxl = "^3.1.2"
+xlrd = "^2.0.1"
+nltk = "^3.8.1"
+pyspellchecker = "^0.8.1"
+emoji = "^2.10.1"
+spacy = "^3.7.4"
+en-core-web-lg = {url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.7.1/en_core_web_lg-3.7.1.tar.gz"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
