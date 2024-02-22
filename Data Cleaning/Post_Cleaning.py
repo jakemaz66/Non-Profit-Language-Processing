@@ -8,7 +8,7 @@ import emoji
 import spacy
 
 #Defining file path to JSON Data
-file_path = r'C:\Users\jakem\Non-Profit-Language-Processing\Raw Data Files\posts.json'
+file_path = r'C:\Users\jakem\Non-Profit-Language-Processing\Data Cleaning\data\Raw Data Files\posts.json'
 
 #Reading in data
 with open(file_path, 'r') as file:
