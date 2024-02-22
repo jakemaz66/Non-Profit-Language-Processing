@@ -15,15 +15,17 @@ print(df_insta.columns)
 features = ['Post Length', 'Punctuation_Count', 'Hashtag_Count', 'Posts_Sentence_Length', 'Emoji_Count', 
             'Adjective_Count', 'Verb_Count', 'Entities_Count']
 
-correlation_matrix = df_insta[features].corr()
+correlation_matrix = df_intsa_reels[features].corr()
 
 #Display the correlation matrix
 print(correlation_matrix)
 
-sns.set(font_scale=0.9)  
+sns.set(font_scale=0.5) 
 plt.figure(figsize=(10, 8))  
 heatmap = sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
 
-heatmap.set_xticklabels(heatmap.get_xticklabels(), rotation=45, horizontalalignment='right', font_scale=0.7)
+plt.title('Correlations between features of Reels Dataset')
+
+heatmap.set_xticklabels(heatmap.get_xticklabels(), rotation=45, horizontalalignment='right')
 
 plt.show()
