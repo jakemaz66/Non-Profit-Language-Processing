@@ -96,8 +96,8 @@ df = collect(data)
 
 #Adding Feature Columns
 df['Post Length'] = df['Post Title'].apply(lambda x: len(x))
-df['Punctuation_Count'] = df['Post Title'].apply(count_punctuation)
-df['Exclam_Count'] = df['Post Title'].apply(count_exclam)
+df['Punctuation_Count'] = df['Post Title'].apply(count_punctuation)/df['Post Length']
+df['Exclam_Count'] = df['Post Title'].apply(count_exclam)/df['Post Length']
 df['Hashtag_Count'] = df['Post Title'].apply(count_hashtags)
 df['Date'] = df['Timestamp'].apply(lambda x: time.ctime(x))
 
@@ -205,9 +205,9 @@ def count_named_entities(col):
     return named_entities_count
 
 #Adding columns for part of speech tagging
-df['Adjective_Count'] = df['Post Title'].apply(count_adjectives)
-df['Verb_Count'] = df['Post Title'].apply(count_verbs)
-df['Entities_Count'] = df['Post Title'].apply(count_named_entities)
+df['Adjective_Count'] = df['Post Title'].apply(count_adjectives)/df['Post Length']
+df['Verb_Count'] = df['Post Title'].apply(count_verbs)/df['Post Length']
+df['Entities_Count'] = df['Post Title'].apply(count_named_entities)/df['Post Length']
 
 #Converting to Excel File
 file_name = 'CleanedPosts.xlsx'

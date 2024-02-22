@@ -68,8 +68,8 @@ display(linked_in_interest)
 
 #Adding Feature Columns
 linked_in_interest['Post Length'] = linked_in_interest['Posts'].apply(lambda x: len(x))
-linked_in_interest['Punctuation_Count'] = linked_in_interest['Posts'].apply(count_punctuation)
-linked_in_interest['Exclam_Count'] = linked_in_interest['Posts'].apply(count_exclam)
+linked_in_interest['Punctuation_Count'] = linked_in_interest['Posts'].apply(count_punctuation)/linked_in_interest['Post Length']
+linked_in_interest['Exclam_Count'] = linked_in_interest['Posts'].apply(count_exclam)/linked_in_interest['Post Length']
 linked_in_interest['Hashtag_Count'] = linked_in_interest['Posts'].apply(count_hashtags)
 
 #Adding Sentence Length Column
@@ -168,9 +168,9 @@ def count_named_entities(col):
     return named_entities_count
 
 #Adding columns for part of speech tagging
-linked_in_interest['Adjective_Count'] = linked_in_interest['Posts'].apply(count_adjectives)
-linked_in_interest['Verb_Count'] = linked_in_interest['Posts'].apply(count_verbs)
-linked_in_interest['Entities_Count'] = linked_in_interest['Posts'].apply(count_named_entities)
+linked_in_interest['Adjective_Count'] = linked_in_interest['Posts'].apply(count_adjectives)/linked_in_interest['Post Length']
+linked_in_interest['Verb_Count'] = linked_in_interest['Posts'].apply(count_verbs)/linked_in_interest['Post Length']
+linked_in_interest['Entities_Count'] = linked_in_interest['Posts'].apply(count_named_entities)/linked_in_interest['Post Length']
 
 
 #Exporting to File
