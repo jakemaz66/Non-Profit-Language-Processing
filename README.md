@@ -1,6 +1,6 @@
 # Non-Profit-Language-Processing
 
-This project aimed at helping the Pittsburgh-based non-profit organization, Bethlehem Haven, expand its digital influence by gaining valuable insights into their social media performance. 
+This project aimed at helping the Pittsburgh-based non-profit organization, Bethlehem Haven, expand its digital influence by gaining valuable insights into their social media performance
 
 ## Table of Contents
 1. [Abstract](#abstract)
