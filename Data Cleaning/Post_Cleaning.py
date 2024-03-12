@@ -208,6 +208,9 @@ def count_named_entities(col):
 df['Adjective_Count'] = df['Post Title'].apply(count_adjectives)/df['Post Length']
 df['Verb_Count'] = df['Post Title'].apply(count_verbs)/df['Post Length']
 df['Entities_Count'] = df['Post Title'].apply(count_named_entities)/df['Post Length']
+df['day_of_week_str'] = df['Combined'].dt.strftime('%A')
+
+df['Score'] = 5.732761 + 0.01142 * len(df['Post Title']) + 1.86986 * df['Exclam_Count'] - 0.79648 * df['Hashtag_Count'] - 0.02131 * df['Posts_Sentence_Length'] - 0.25153 * df['Adjective_Count'] - 0.11134 * df['Verb_Count'] - 0.04224 * df['Entities_Count']
 
 #Converting to Excel File
 file_name = 'CleanedPosts.xlsx'

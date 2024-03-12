@@ -216,6 +216,7 @@ def count_named_entities(col):
 df['Adjective_Count'] = df['Post Title'].apply(count_adjectives)/df['Post Length']
 df['Verb_Count'] = df['Post Title'].apply(count_verbs)/df['Post Length']
 df['Entities_Count'] = df['Post Title'].apply(count_named_entities)/df['Post Length']
+df['day_of_week_str'] = df['Combined'].dt.strftime('%A')
 
 #Converting to Excel File
 excel_filename = 'Cleaned Reels Data.xlsx'

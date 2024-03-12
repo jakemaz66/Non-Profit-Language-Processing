@@ -171,6 +171,7 @@ def count_named_entities(col):
 linked_in_interest['Adjective_Count'] = linked_in_interest['Posts'].apply(count_adjectives)/linked_in_interest['Post Length']
 linked_in_interest['Verb_Count'] = linked_in_interest['Posts'].apply(count_verbs)/linked_in_interest['Post Length']
 linked_in_interest['Entities_Count'] = linked_in_interest['Posts'].apply(count_named_entities)/linked_in_interest['Post Length']
+linked_in_interest['day_of_week_str'] = linked_in_interest['Combined'].dt.strftime('%A')
 
 
 #Exporting to File

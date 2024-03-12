@@ -17,6 +17,8 @@ pyspellchecker = "^0.8.1"
 emoji = "^2.10.1"
 spacy = "^3.7.4"
 en-core-web-lg = {url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.7.1/en_core_web_lg-3.7.1.tar.gz"}
+seaborn = "^0.13.2"
+matplotlib = "^3.8.3"
 
 
 [build-system]
