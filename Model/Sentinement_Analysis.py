@@ -12,9 +12,9 @@ nltk.download('punkt')
 nltk.download('vader_lexicon')
 
 #Reading in cleaned dataframes
-df_linkedin = pd.read_excel(r'C:\Users\jakem\Non-Profit-Language-Processing\Data Cleaning\Cleaned Output Files\Cleaned LinkedIn Data.xlsx')
-df_intsa_reels = pd.read_excel(r'C:\Users\jakem\Non-Profit-Language-Processing\Data Cleaning\Cleaned Output Files\Cleaned Reels Data.xlsx')
-df_insta = pd.read_excel(r'C:\Users\jakem\Non-Profit-Language-Processing\Data Cleaning\Cleaned Output Files\CleanedPosts.xlsx')
+df_linkedin = pd.read_excel(r'C:\Users\jakem\Non-Profit-Language-Processing\Data Cleaning\data\Cleaned LinkedIn Data.xlsx')
+df_intsa_reels = pd.read_excel(r'C:\Users\jakem\Non-Profit-Language-Processing\Data Cleaning\data\CleanedPosts.xlsx')
+df_insta = pd.read_excel(r'C:\Users\jakem\Non-Profit-Language-Processing\Data Cleaning\data\Cleaned Reels Data.xlsx')
 
 def fill(text):
     text = text.astype(str)
@@ -22,8 +22,7 @@ def fill(text):
         return " "
     
 df_intsa_reels['Post Title'] = df_intsa_reels['Post Title'].astype(str)
-
-
+df_insta['Post Title'] = df_insta['Post Title'].astype(str)
 
 #Lowercasing all text
 df_linkedin['Posts'] = df_linkedin['Posts'].apply(lambda x: x.lower())
@@ -72,6 +71,12 @@ df_intsa_reels['sentiment_category'] = df_intsa_reels['sentiment'].apply(lambda 
 
 df_insta['sentiment_category'] = df_insta['sentiment'].apply(lambda x: 'positive' if x > .85 
                                                                    else ('negative' if x < 0 else 'neutral'))
+
+df_linkedin_group = df_linkedin.groupby('sentiment_category')['Likes'].mean()
+sent_data = pd.DataFrame({'Sentiment': df_linkedin_group.index, 'Average Likes': df_linkedin_group.values})
+
+df_insta_group = df_insta.groupby('sentiment_category')['Likes'].mean()
+sent_data_2 = pd.DataFrame({'Sentiment': df_insta_group.index, 'Average Likes': df_insta_group.values})
 
 file_name_1 = 'CleanedPosts.xlsx'
 df_insta.to_excel(file_name_1)
