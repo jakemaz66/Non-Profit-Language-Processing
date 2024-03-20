@@ -1,9 +1,14 @@
 import pandas as pd
 
-df_1 = pd.read_excel(r'C:\Users\jakem\Non-Profit-Language-Processing\Data Cleaning\Cleaned Output Files\Cleaned LinkedIn Data.xlsx')
-df_2 = pd.read_excel(r'C:\Users\jakem\Non-Profit-Language-Processing\Data Cleaning\Cleaned Output Files\Cleaned Reels Data.xlsx')
-df_3 = pd.read_excel(r'C:\Users\jakem\Non-Profit-Language-Processing\Data Cleaning\Cleaned Output Files\CleanedPosts.xlsx')
+def combine_frames():
 
-combined_df = pd.concat([df_1, df_2, df_3], axis=1)
+    df_1 = pd.read_excel(r'C:\Users\jakem\Non-Profit-Language-Processing\Data Cleaning\Cleaned Output Files\Cleaned LinkedIn Data.xlsx')
+    df_2 = pd.read_excel(r'C:\Users\jakem\Non-Profit-Language-Processing\Data Cleaning\Cleaned Output Files\Cleaned Reels Data.xlsx')
+    df_3 = pd.read_excel(r'C:\Users\jakem\Non-Profit-Language-Processing\Data Cleaning\Cleaned Output Files\CleanedPosts.xlsx')
 
-print(combined_df.columns)
+    combined_df = pd.concat([df_1, df_2, df_3], axis=1)
+
+    print(combined_df.columns)
+
+if __name__ == '__main__':
+    combine_frames()
