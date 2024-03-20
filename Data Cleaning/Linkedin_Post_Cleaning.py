@@ -4,11 +4,6 @@ from spellchecker import SpellChecker
 import emoji
 import spacy
 
-
-#Reading in Data
-df_linkedin = pd.read_excel(r'C:\Users\jakem\Non-Profit-Language-Processing\Data Cleaning\data\Raw Data Files\bethlehem-haven_content_LinkedInData_01_23__01_24 (1).xls',
-                            sheet_name='All posts')
-
 def display(df: pd.DataFrame):
     """
     Takes in a dataframe and displays it
@@ -51,27 +46,6 @@ def count_hashtags(text):
     """
     return sum(1 for char in text if char in ['#'])
 
-#Renaming columns
-df_linkedin.columns = ['Posts', 'Post Link', 'Post Type', 'Campaign name', 'Posted by',
-                       'Created date', 'Campaign start date', 'Campaign end date', 'Audience',
-                       'Impressions', 'Views (Excluding offsite video views)', 'Offsite Views',
-                       'Clicks', 'Click through rate (CTR)', 'Likes', 'Comments', 'Reposts',
-                       'Follows', 'Engagement rate', 'Content Type']
-
-#Getting rid of existing headers
-df_linkedin = df_linkedin.iloc[1:, :]
-
-#Subsetting columns of interest
-linked_in_interest = df_linkedin[['Posts', 'Impressions', 'Likes', 'Comments', 'Reposts']]
-
-display(linked_in_interest)
-
-#Adding Feature Columns
-linked_in_interest['Post Length'] = linked_in_interest['Posts'].apply(lambda x: len(x))
-linked_in_interest['Punctuation_Count'] = linked_in_interest['Posts'].apply(count_punctuation)/linked_in_interest['Post Length']
-linked_in_interest['Exclam_Count'] = linked_in_interest['Posts'].apply(count_exclam)/linked_in_interest['Post Length']
-linked_in_interest['Hashtag_Count'] = linked_in_interest['Posts'].apply(count_hashtags)
-
 #Adding Sentence Length Column
 def split_sent(col):
     """
@@ -90,10 +64,6 @@ def split_sent(col):
     else:
         return 0  
 
-linked_in_interest['Posts_Sentence_Length'] = linked_in_interest['Posts'].apply(split_sent)
-
-#Function to detect spelling mistakes
-
 #Function to detect emojis (so they will not be counted in the mistakes)
 def is_emoji(word):
     """
@@ -103,24 +73,6 @@ def is_emoji(word):
     word -> a string
     """
     return sum(1 for character in word if emoji.is_emoji(character))
-
-
-#Work in Progress Function
-#def detect_mistakes(col):
-    checker = SpellChecker()
-    words = col.split()
-
-    #Filtering out any emojis present
-    words = [word for word in words if not is_emoji(word)]
-
-    mistakes = checker.unknown(words)
-
-    number_mistakes = len(mistakes)
-    return number_mistakes
-
-#Adding column that counts emojis
-linked_in_interest['Emoji_Count'] = linked_in_interest['Posts'].apply(is_emoji)
-
 
 #Part of Speech Tagging
 spacy.cli.download("en_core_web_lg")
@@ -167,16 +119,44 @@ def count_named_entities(col):
 
     return named_entities_count
 
-#Adding columns for part of speech tagging
-linked_in_interest['Adjective_Count'] = linked_in_interest['Posts'].apply(count_adjectives)/linked_in_interest['Post Length']
-linked_in_interest['Verb_Count'] = linked_in_interest['Posts'].apply(count_verbs)/linked_in_interest['Post Length']
-linked_in_interest['Entities_Count'] = linked_in_interest['Posts'].apply(count_named_entities)/linked_in_interest['Post Length']
-linked_in_interest['day_of_week_str'] = linked_in_interest['Combined'].dt.strftime('%A')
+if __name__ == '__main__':
 
+    #Reading in Data
+    df_linkedin = pd.read_excel(r'C:\Users\jakem\Non-Profit-Language-Processing\Data Cleaning\data\Raw Data Files\bethlehem-haven_content_LinkedInData_01_23__01_24 (1).xls',
+                                sheet_name='All posts')
 
-#Exporting to File
-excel_filename = 'Cleaned LinkedIn Data.xlsx'
-linked_in_interest.to_excel(excel_filename)
+    #Renaming columns
+    df_linkedin.columns = ['Posts', 'Post Link', 'Post Type', 'Campaign name', 'Posted by',
+                        'Created date', 'Campaign start date', 'Campaign end date', 'Audience',
+                        'Impressions', 'Views (Excluding offsite video views)', 'Offsite Views',
+                        'Clicks', 'Click through rate (CTR)', 'Likes', 'Comments', 'Reposts',
+                        'Follows', 'Engagement rate', 'Content Type']
+
+    #Getting rid of existing headers
+    df_linkedin = df_linkedin.iloc[1:, :]
+
+    #Subsetting columns of interest
+    linked_in_interest = df_linkedin[['Posts', 'Impressions', 'Likes', 'Comments', 'Reposts']]
+
+    display(linked_in_interest)
+
+    #Adding Feature Columns
+    linked_in_interest['Post Length'] = linked_in_interest['Posts'].apply(lambda x: len(x))
+    linked_in_interest['Punctuation_Count'] = linked_in_interest['Posts'].apply(count_punctuation)/linked_in_interest['Post Length']
+    linked_in_interest['Exclam_Count'] = linked_in_interest['Posts'].apply(count_exclam)/linked_in_interest['Post Length']
+    linked_in_interest['Hashtag_Count'] = linked_in_interest['Posts'].apply(count_hashtags)
+    linked_in_interest['Posts_Sentence_Length'] = linked_in_interest['Posts'].apply(split_sent)
+    linked_in_interest['Emoji_Count'] = linked_in_interest['Posts'].apply(is_emoji)
+
+    #Adding columns for part of speech tagging
+    linked_in_interest['Adjective_Count'] = linked_in_interest['Posts'].apply(count_adjectives)/linked_in_interest['Post Length']
+    linked_in_interest['Verb_Count'] = linked_in_interest['Posts'].apply(count_verbs)/linked_in_interest['Post Length']
+    linked_in_interest['Entities_Count'] = linked_in_interest['Posts'].apply(count_named_entities)/linked_in_interest['Post Length']
+    linked_in_interest['day_of_week_str'] = linked_in_interest['Combined'].dt.strftime('%A')
+
+    #Exporting to File
+    excel_filename = 'Cleaned LinkedIn Data.xlsx'
+    linked_in_interest.to_excel(excel_filename)
 
 
 

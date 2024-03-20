@@ -4,28 +4,32 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-#Reading in cleaned dataframes
-df_linkedin = pd.read_excel(r'Data Cleaning/data/Cleaned LinkedIn Data.xlsx')
-df_intsa_reels = pd.read_excel(r'Data Cleaning/data/Cleaned Reels Data.xlsx')
-df_insta = pd.read_excel(r'Data Cleaning/data/CleanedPosts.xlsx')
+def correlation():
 
-print(df_insta.columns)
+    #Reading in cleaned dataframes
+    df_linkedin = pd.read_excel(r'Data Cleaning/data/Cleaned LinkedIn Data.xlsx')
+    df_intsa_reels = pd.read_excel(r'Data Cleaning/data/Cleaned Reels Data.xlsx')
+    df_insta = pd.read_excel(r'Data Cleaning/data/CleanedPosts.xlsx')
 
-#Defining a features list
-features = ['Post Length', 'Punctuation_Count', 'Hashtag_Count', 'Posts_Sentence_Length', 'Emoji_Count', 
-            'Adjective_Count', 'Verb_Count', 'Entities_Count']
+    print(df_insta.columns)
 
-correlation_matrix = df_intsa_reels[features].corr()
+    #Defining a features list
+    features = ['Post Length', 'Punctuation_Count', 'Hashtag_Count', 'Posts_Sentence_Length', 'Emoji_Count', 
+                'Adjective_Count', 'Verb_Count', 'Entities_Count']
 
-#Display the correlation matrix
-print(correlation_matrix)
+    correlation_matrix = df_intsa_reels[features].corr()
 
-sns.set(font_scale=0.5) 
-plt.figure(figsize=(10, 8))  
-heatmap = sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
+    #Display the correlation matrix
+    print(correlation_matrix)
 
-plt.title('Correlations between features of Reels Dataset')
+    sns.set(font_scale=0.5) 
+    plt.figure(figsize=(10, 8))  
+    heatmap = sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
 
-heatmap.set_xticklabels(heatmap.get_xticklabels(), rotation=45, horizontalalignment='right')
+    plt.title('Correlations between features of Reels Dataset')
 
-plt.show()
+    heatmap.set_xticklabels(heatmap.get_xticklabels(), rotation=45, horizontalalignment='right')
+    plt.show()
+
+if __name__ == '__main__':
+    correlation()
