@@ -6,6 +6,9 @@ import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer as sia
 import string as st
 
+#Sentiment Analysis
+sia = sia()
+
 
 def remove_stopwords(text):
     """
@@ -54,9 +57,6 @@ def sentiment_model():
     df_linkedin['Posts_Analysis'] = df_linkedin['Posts'].apply(remove_stopwords)
     df_intsa_reels['Posts_Analysis'] = df_intsa_reels['Post Title'].apply(remove_stopwords)
     df_insta['Posts_Analysis'] = df_insta['Post Title'].apply(remove_stopwords)
-
-    #Sentiment Analysis
-    sia = sia()
 
     df_linkedin['sentiment'] = df_linkedin['Posts_Analysis'].apply(lambda x: sia.polarity_scores(x)['compound'])
     df_intsa_reels['sentiment'] = df_intsa_reels['Posts_Analysis'].apply(lambda x: sia.polarity_scores(x)['compound'])
